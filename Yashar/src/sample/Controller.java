@@ -15,7 +15,7 @@ public class Controller {
     private Source source = new Source();
 
     public void processNumbers(ActionEvent event) {
-        if (start == true){
+        if (start){
             show.setText("");
             start = false;
         }
@@ -24,27 +24,44 @@ public class Controller {
     }
 
     public void processOperators(ActionEvent event) {
+        if (start){
+            show.setText("");
+            start = false;
+        }
         String value = ((Button)event.getSource()).getText();
-        operator = value;
-        if (!value.equals("=")){
-            if (value.isEmpty()){
-                return;
+        if (value.charAt(0) != "=".charAt(0)){
+            if (value.equals("C")){
+                operator = "";
+                number1 = 0;
+                show.setText("");
+                start = true;
+            }
+            else if (operator.isEmpty()){
+                number1 = Integer.parseInt(show.getText());
+                operator = value;
+                show.setText("");
             }
 
-            number1 = Integer.parseInt(show.getText());
-            show.setText("");
         }
         else {
-            if (value.isEmpty()){
-                return;
+            if (operator.isEmpty()){
+                if (number1 == 0){
+                    show.setText("");
+                    return;
+                }
+                else{
+                    number1 = Integer.parseInt(show.getText());
+                    show.setText(String.valueOf(number1));
+                }
             }
-            int number2 = Integer.parseInt(show.getText());
-            int result = source.calculate(number1, number2, operator);
-            show.setText(String.valueOf(result));
-            operator = "";
-            number1=0;
-            number2=0;
-            start=true;
+            else{
+                int number2 = Integer.parseInt(show.getText());
+                String result = String.valueOf(source.calculate(number1, number2, operator));
+                show.setText(result);
+                operator = "";
+                number1=0;
+                start=true;
+            }
         }
     }
 }
