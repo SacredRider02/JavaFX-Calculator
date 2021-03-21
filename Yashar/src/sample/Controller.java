@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 
 public class Controller {
 
@@ -13,6 +14,7 @@ public class Controller {
     private String operator = "";
     private boolean start = true;
     private Source source = new Source();
+
 
     public void processNumbers(ActionEvent event) {
         if (start){
@@ -59,9 +61,13 @@ public class Controller {
                 String result = String.valueOf(source.calculate(number1, number2, operator));
                 show.setText(result);
                 operator = "";
-                number1=0;
-                start=true;
+                number1= Integer.parseInt(result);
             }
         }
+    }
+
+    public void sqrt(ActionEvent event) {
+        number1 = Integer.parseInt(show.getText());
+        show.setText(String.valueOf(Math.sqrt((double) number1)));
     }
 }
